@@ -1,5 +1,6 @@
 package com.example.listagemgustavo;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,22 +15,26 @@ import androidx.annotation.Nullable;
 import java.util.List;
 
 public class ArrayAdapterCarros extends ArrayAdapter<String> {
-
-    public ArrayAdapterCarros(@NonNull Context context, int resource, @NonNull List<String> objects) {
-        super(context, resource, objects);
+private Context mContext;
+private int mResource;
+    public ArrayAdapterCarros(@NonNull Context context, int resource, @NonNull List<String> carros) {
+        super(context, resource, carros);
+        mContext=context;
+        mResource=resource;
     }
 
+    @SuppressLint("ViewHolder")
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        View view = convertView;
-        if (view == null) {
-            LayoutInflater inflater = LayoutInflater.from(getContext());
-            view = inflater.inflate(R.layout.item_lista, parent, false);
-        }
 
-        ImageView imageView = view.findViewById(R.id.imageView);
-        TextView textViewNome = view.findViewById(R.id.textViewNome);
+
+            LayoutInflater inflater = LayoutInflater.from(mContext);
+        convertView = inflater.inflate(mResource, parent, false);
+
+
+        ImageView imageView = convertView.findViewById(R.id.imageView);
+        TextView textViewNome = convertView.findViewById(R.id.textViewNome);
 
         String carro = getItem(position);
         textViewNome.setText(carro);
@@ -53,6 +58,9 @@ public class ArrayAdapterCarros extends ArrayAdapter<String> {
                 break;
         }
 
-        return view;
+        return convertView;
     }
+//    public int getCount(){
+//        return mObjects.size();
+//    }
 }
